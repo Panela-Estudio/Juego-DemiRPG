@@ -1,80 +1,109 @@
 /*****
-Que es este juego, es un juego "rpg" es solo ir dando hostias con una espada
-***/
+ Que es este juego, es un juego "rpg" es solo ir dando hostias con una espada
+ ***/
 Entidad jugador;
 ArrayList <escenario> escenografia;
 ArrayList <Entidad> enemigos;
 escenario piso;
-void setup(){
-  size(1000,500);
-  jugador = new Entidad(width/2,height/2,3,3,3,false);
-  piso = new escenario(0,height/2 + 20,width,30);
+boolean creado = true;
+int [][]Pantalla = {
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  {1, 1, 0, 0, 0, 1, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 1}, 
+  {1, 0, 0, 0, 0, 1, 0, 0, 5, 0, 0, 5, 0, 0, 5, 0, 0, 0, 0, 0, 5, 0, 0, 5, 0, 0, 5, 0, 0, 5, 0, 1}, 
+  {1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1}, 
+  {1, 1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 0, 1}, 
+  {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1}, 
+  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+void setup() {
+  size(1000, 600);
+  jugador = new Entidad(width/2, height/2, 3, 3, 3, false);
   escenografia = new ArrayList<escenario>();
-  Loader_Image();
+  nose = new ArrayList<Ataque>();
+  Loader_Image(); 
 }
-void draw(){
-  background(255);
-  creador();
-  jugador.gen();
+void draw() {
+  background(111,111,132);
+  if(!creado){creador();jugador.gen();captador();}
+  if(creado){Nivel();}
 }
-void keyPressed(){
-  switch(key){
-    case 'a':
-    case 'A':
+void keyPressed() {
+  switch(key) {
+  case 'a':
+  case 'A':
     jugador.MoL = true;
     break;
-    case 'd':
-    case 'D':
+  case 'd':
+  case 'D':
     jugador.MoR = true;
     break;
-    case 'w':
-    case 'W':
+  case 'w':
+  case 'W':
     jugador.MoJ = true;
     jugador.Floor = false;
     break;
-    case 's':
-    case 'S':
+  case 's':
+  case 'S':
     break;
-    case 'j':
-    case 'J':
+  case 'j':
+  case 'J':
     jugador.AtackL = true;
     break;
-    case 'k':
-    case 'K':
+  case 'k':
+  case 'K':
     break;
   }
 }
-void keyReleased(){
-  switch(key){
-    case 'a':
-    case 'A':
+void keyReleased() {
+  switch(key) {
+  case 'a':
+  case 'A':
     jugador.MoL = false;
     break;
-    case 'd':
-    case 'D':
+  case 'd':
+  case 'D':
     jugador.MoR = false;
     break;
-    case 'w':
-    case 'W':
+  case 'w':
+  case 'W':
     jugador.MoJ = false;
     break;
-    case 's':
-    case 'S':
+  case 's':
+  case 'S':
     break;
-    case 'j':
-    case 'J':
+  case 'j':
+  case 'J':
     jugador.AtackL = false;
     break;
-    case 'k':
-    case 'K':
+  case 'k':
+  case 'K':
+    nose.add(new Ataque((int)jugador.Coord.x,(int)jugador.Coord.y,1,false));
     break;
   }
 }
-void colisionador(){
- boolean Si_suelo = false,Si_techo = false,Si_frente = false,Si_detras = false;
- Si_suelo = Si_suelo | piso.suelo;
- Si_techo = Si_techo | piso.techo;
- Si_frente = Si_frente | piso.frente;
- Si_detras = Si_detras | piso.detras;
- jugador.Floor = Si_suelo;
+void Nivel(){
+  for(int i = 0; i < Pantalla.length; i++){
+    for(int j = 0; j < Pantalla[i].length; j++){
+      switch(Pantalla[i][j]){
+        case 1:
+        escenografia.add(new escenario(j*32,i*32,32,32,(int)random(0,1.9)));
+        break;
+        case 2:
+        escenografia.add(new escenario(j*32,i*32,0,0,2));
+        break;
+        case 3:
+        escenografia.add(new escenario(j*32,i*32,0,0,3));
+        break;
+      }
+    }
+  }
+  creado = false;
 }

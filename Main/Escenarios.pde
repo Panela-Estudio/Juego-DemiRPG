@@ -1,9 +1,48 @@
 class escenario{
   int xi,yi,xf,yf;
   boolean suelo = false,techo = false,frente = false,detras = false;
-  escenario(int tempx,int tempy,int tempa,int temph){
+  int tipo = 16,Alto,Ancho,tipox,tipoy;
+  escenario(int tempx,int tempy,int tempa,int temph, int _tipo){
     xi=tempx;xf=tempa;
     yi=tempy;yf=temph;
+    switch(_tipo){
+      case 0://Primer cubo
+        tipox = 0;
+        tipoy = 0;
+        Ancho = 2;
+        Alto = 2;
+      break;
+      case 1://Segundo cubo
+        tipox = 2;
+        tipoy = 0;
+        Alto = 2;
+        Ancho = 2;
+      break;
+      case 2://Ventana
+        tipox = 4;
+        tipoy = 0;
+        Ancho = 2;
+        Alto = 4;
+      break;
+      case 3://Parte de arriba Columna
+        tipox = 6;
+        tipoy = 0;
+        Ancho = 2;
+        Alto = 4; 
+      break;
+      case 4://Parte del medio
+        tipox = 0;
+        tipoy = 2;
+        Ancho = 2;
+        Alto = 2;
+      break;
+      case 5://Parte de abajo Columna
+        tipox = 4;
+        tipoy = 3;
+        Ancho = 2;
+        Alto = 1;
+      break;
+    }
   }
   void gen(){
     detector();
@@ -11,18 +50,15 @@ class escenario{
   }
   void detector(){
     boolean sueloI = false, techoI = false,frenteI = false,detrasI = false;
-    if(jugador.Coord.x + 16 >= xi && jugador.Coord.x - 16 <= xi + xf){
-      if((jugador.Coord.y + 32 >= yi || jugador.Coord.y + 33 >= yi )
-        && jugador.Coord.y + 32 <= yi + yf/2){
+    if((jugador.Coord.x - 15 >= xi && jugador.Coord.x - 15 <= xi + xf) || (jugador.Coord.x + 15 >= xi && jugador.Coord.x + 15 <= xi + xf)){
+      if(jugador.Coord.y + 32 >= yi && jugador.Coord.y + 32 <= yi + yf/2){
         jugador.Coord.y = yi - 32;
         sueloI = true;
-      } else if((jugador.Coord.y <= yi + yf  || jugador.Coord.y - 1<= yi + yf || jugador.Coord.y + 2 <= yi + yf || jugador.Coord.y + 3 <= yi + yf)
-        && jugador.Coord.y >= yi){
-        jugador.Coord.y = yi + yf;
+      } else if(jugador.Coord.y <= yi + yf && jugador.Coord.y >= yi){          
         techoI = true;
       }
     }
-    if(jugador.Coord.y + 30 <= yi + yf && jugador.Coord.y + 10 >= yi){
+    if((jugador.Coord.y + 30 <= yi + yf && jugador.Coord.y + 30 >= yi) || (jugador.Coord.y + 10 <= yi + yf && jugador.Coord.y + 10 >= yi)){
       if(jugador.Coord.x + 16 >= xi && jugador.Coord.x - 16 <= xi + xf){
         if(jugador.Coord.x + 16 <= xi + xf/2){jugador.Coord.x = xi - 16; frenteI = true;} 
         else if(jugador.Coord.x - 16 >= xi + xf/2){jugador.Coord.x = xi + xf + 16; detrasI = true;}
@@ -33,16 +69,13 @@ class escenario{
     frente = frenteI;
     detras = detrasI;
   }
-  void face(){
-    noStroke();
-    fill(0,0,255);
-    if(suelo || techo || frente || detras){ fill(0);}
-    copy(Suelo,0,0,32,32,xi,yi,32,32);
+  void face(){    
+    copy(Suelo,tipox*tipo,tipoy*tipo,Ancho*tipo,Alto*tipo,xi,yi,Ancho*tipo,Alto*tipo);
   }
 }
 /**************/
 void creador(){
-  boolean Si_suelo = false,Si_techo = false,Si_frente = false,Si_detras = false;
+  Boolean Si_suelo = false,Si_techo = false,Si_frente = false,Si_detras = false;
   for(int i = escenografia.size() - 1; i >= 0; i--){
     escenario pedazo = escenografia.get(i);
     pedazo.gen();     
@@ -54,8 +87,8 @@ void creador(){
      jugador.Roof = Si_techo;
      jugador.Front = Si_frente;
      jugador.Back = Si_detras;
-  }
+  }  
   if(mousePressed){
-    escenografia.add(new escenario((int)mouseX,(int)mouseY,32,32));
+    escenografia.add(new escenario((int)mouseX,(int)mouseY,32,32,0));
   }
 }

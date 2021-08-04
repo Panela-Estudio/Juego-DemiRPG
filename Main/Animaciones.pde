@@ -20,11 +20,14 @@ void A_Prota(int Type,int _x,int _y){
 void A_Ene_A(){
   
 }
-PImage MOV_R,MOV_L,MOV_J,MOV_A;
+PImage MOV_R,MOV_L,MOV_J,MOV_A,MOV_Q;
 PImage Suelo;
+PImage Items;
 void Loader_Image(){
   MOV_R = loadImage("Assets/Gabriel_Caminata.png");
-  MOV_J = loadImage("Assets/Gabriel_Ataque.png");
-  MOV_A = loadImage("Assets/Gabriel_Salto.png");
+  MOV_A = loadImage("Assets/Gabriel_Ataque.png");
+  MOV_J = loadImage("Assets/Gabriel_Salto.png");
+  MOV_Q = loadImage("Assets/Gabriel_Quieto.png");
   Suelo = loadImage("Assets/Piso.png");
+  Items = loadImage("Assets/Items.png");
 }
