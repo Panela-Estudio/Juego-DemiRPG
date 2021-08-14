@@ -3,7 +3,7 @@
  ***/
 Entidad jugador;
 ArrayList <escenario> escenografia;
-ArrayList <Entidad> enemigos;
+ArrayList <Entidad> jugadores;
 escenario piso;
 boolean creado = true;
 int lvl = 1;
@@ -13,16 +13,21 @@ String []z;
 void setup() {
   size(1000, 600);
   jugador = new Entidad(width/2, height/2, 3, 3, 3, false);
+  jugadores = new ArrayList<Entidad>();
+  jugadores.add(new Entidad(width/2, height/2, 3, 3, 3, false));
   escenografia = new ArrayList<escenario>();
   nose = new ArrayList<Ataque>();
+<<<<<<< HEAD
   Loader_Image(); 
   
   Pantalla = loadStrings("Stage/"+lvl+".txt");
+=======
+  Loader_Image();
+>>>>>>> faa441dbb474ddbb9896a2e9351ccb1c85220fdb
 }
 void draw() {
-  background(111,111,132);
-  if(!creado){creador();jugador.gen();captador();}
-  if(creado){Nivel();}
+  background(111, 111, 132);
+  Pantalla();
 }
 void keyPressed() {
   switch(key) {
@@ -74,10 +79,11 @@ void keyReleased() {
     break;
   case 'k':
   case 'K':
-    nose.add(new Ataque((int)jugador.Coord.x,(int)jugador.Coord.y,1,false));
+    nose.add(new Ataque((int)jugador.Coord.x, (int)jugador.Coord.y, 1, false));
     break;
   }
 }
+<<<<<<< HEAD
 void Nivel(){
   
   for (int i=0; i<Pantalla.length; i++){
@@ -93,12 +99,31 @@ void Nivel(){
       switch(Lv[i][j]){
         case 1:
         escenografia.add(new escenario(j*32,i*32,32,32,(int)random(0,1.9)));
+=======
+void Nivel() {
+  for (int i = 0; i < Pantalla.length; i++) {
+    for (int j = 0; j < Pantalla[i].length; j++) {
+      switch(Pantalla[i][j]) {
+      case 0:
+        if (Pantalla[i][j - 1] == 1 && Pantalla[i-1][j] == 1) {
+          escenografia.add(new escenario(j*32, i*32, 0, 0, 6));
+        } else if (Pantalla[i][j + 1] == 1 && Pantalla[i-1][j] == 1){
+          escenografia.add(new escenario(j*32, i*32, 0, 0, 7));
+        }
+>>>>>>> faa441dbb474ddbb9896a2e9351ccb1c85220fdb
         break;
-        case 2:
-        escenografia.add(new escenario(j*32,i*32,0,0,2));
+      case 1:
+        if (i >= 1 && Pantalla[i-1][j] == 1) {
+          escenografia.add(new escenario(j*32, i*32, 32, 32, (int)random(4, 5.9)));
+        } else {
+          escenografia.add(new escenario(j*32, i*32, 32, 32, (int)random(0, 1.9)));
+        }          
         break;
-        case 3:
-        escenografia.add(new escenario(j*32,i*32,0,0,3));
+      case 2:
+        escenografia.add(new escenario(j*32, i*32, 0, 0, 2));
+        break;
+      case 3:
+        escenografia.add(new escenario(j*32, i*32, 0, 0, 3));
         break;
       }
     }
