@@ -18,8 +18,6 @@ void setup() {
   escenografia = new ArrayList<escenario>();
   nose = new ArrayList<Ataque>();
 
-  Loader_Image(); 
-  
   Lv = loadStrings("Stage/"+lvl+".txt");
   Loader_Image();
 }
