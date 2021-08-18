@@ -1,3 +1,8 @@
+/*
+ Animaciones y imagenes
+  Apartado de animaciones de personaje y enemigos:
+    Estado: En trabajo.
+*/
 float[] frames = {0, 0, 0};
 int acumulativa = 0;
 int[] framesM = {5, 7, 3};

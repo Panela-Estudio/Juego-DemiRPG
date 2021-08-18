@@ -6,7 +6,7 @@ class Entidad {
   boolean Front = false, Back = false, Roof = false;
   boolean AtackL = false, AtackH = false;
   int Heal, Armord, Damage;
-  float tiempo = 0, tiempoA = 0, Tiempo = 0;
+  float tiempo = 0, tiempoA = 0, Tiempo = 0,T_Salto = 0;
   int frame = 0, dir = 1;
   Entidad(float tempx, float tempy, int tempH, int tempA, int tempD, boolean tempHo) {
     Coord.x = tempx;
@@ -39,7 +39,7 @@ class Entidad {
     } else if (!Floor) {
       tiempo += 0.01;
     }
-    Coord.y += - Base.y*i + 6*tiempo;
+    Coord.y += - Base.y*i + 7*tiempo;
   }
   void control() {
     if (Hostil == true) {

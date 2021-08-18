@@ -23,7 +23,7 @@ void setup() {
 }
 void draw() {
   background(111, 111, 132);
-  Pantalla();
+  Menu();
 }
 void keyPressed() {
   switch(key) {
@@ -41,7 +41,7 @@ void keyPressed() {
     jugador.Floor = false;
     break;
   case 's':
-  case 'S':
+  case 'S':  
     break;
   case 'j':
   case 'J':
@@ -49,6 +49,12 @@ void keyPressed() {
     break;
   case 'k':
   case 'K':
+    break;
+  case ENTER:
+    Enter = true;
+    break;
+  case '+':
+    Back = true;
     break;
   }
 }
@@ -65,9 +71,15 @@ void keyReleased() {
   case 'w':
   case 'W':
     jugador.MoJ = false;
+    if(Pablo == 4){
+      Arriba = true;
+    }
     break;
   case 's':
   case 'S':
+  if(Pablo == 4){
+    Abajo = true;
+    }
     break;
   case 'j':
   case 'J':
@@ -76,30 +88,35 @@ void keyReleased() {
   case 'k':
   case 'K':
     nose.add(new Ataque((int)jugador.Coord.x, (int)jugador.Coord.y, 1, false));
+    break;   
+  case ENTER:
+    Enter = false;
+    break;
+  case '+':
+    Back = false;
     break;
   }
 }
 
 
 void Nivel() {
-    for (int i=0; i<Lv.length; i++){
+  for (int i=0; i<Lv.length; i++) {
     z = split(Lv[i], ',');
-    for(int j = 0; j<z.length;j++){
+    for (int j = 0; j<z.length; j++) {
       Pantalla[i][j]= int(z[j]);
     }
-  
   }
   for (int i = 0; i < Pantalla.length; i++) {
     for (int j = 0; j < Pantalla[i].length; j++) {
       switch(Pantalla[i][j]) {
       case 0:
-      if(j>1 && i>1 && j<32 && i<16){
-        if (Pantalla[i][j - 1] == 1 && Pantalla[i-1][j] == 1) {
-          escenografia.add(new escenario(j*32, i*32, 0, 0, 6));
-        } else if (Pantalla[i][j + 1] == 1 && Pantalla[i-1][j] == 1){
-          escenografia.add(new escenario(j*32, i*32, 0, 0, 7));
+        if (j>1 && i>1 && j<32 && i<16) {
+          if (Pantalla[i][j - 1] == 1 && Pantalla[i-1][j] == 1) {
+            escenografia.add(new escenario(j*32, i*32, 0, 0, 6));
+          } else if (Pantalla[i][j + 1] == 1 && Pantalla[i-1][j] == 1) {
+            escenografia.add(new escenario(j*32, i*32, 0, 0, 7));
+          }
         }
-      }
         break;
       case 1:
         if (i >= 1 && Pantalla[i-1][j] == 1) {
