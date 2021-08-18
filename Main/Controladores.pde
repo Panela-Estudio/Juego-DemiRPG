@@ -1,32 +1,3 @@
-
-boolean entrar = false;
-void Pantalla() {
-  if (keyPressed && key != ESC) {
-    Pablo ++;
-  } else if (key == SHIFT) {
-    key = '1';
-    Pablo = 0;
-  }
-  if (Pablo >= 1) { 
-    if (!creado) {
-      creador();
-      jugador.gen();
-      captador();
-    }
-    if (creado) {
-      Nivel();
-    }
-  } else {
-    image(Screen, 0, 0);
-    fill(255);
-    textSize(20);
-    textAlign(CENTER, CENTER);
-    text("Presiona un boton para iniciar y no seas imbecil a precionar ESC", width/2, 9*height/10);
-  }
-}
-/*
-nuevo menu
- */
 int Pablo = 3, Selector = 1;
 boolean Enter = false, Back = false, Arriba = false, Abajo = false;
 void Menu() {
@@ -52,9 +23,11 @@ void Menu() {
     break;
   case 1://Pantalla de antes
   image(Screen, 0, 0);
+  text("Presione + para salir",width/2,6*height/10);
     break;
   case 2://Pantalla con menus
   image(Screen, 0, 0);
+  text("Presione + para salir",width/2,6*height/10);
     break;
   case 3://Pantalla con configuracione
   inicio();
@@ -67,15 +40,10 @@ void Menu() {
 void inicio() {
   image(Screen, 0, 0);
   fill(255);
-  textSize(20);
-  textAlign(CENTER, CENTER);
   text("Presiona un boton para iniciar y no seas imbecil a precionar ESC", width/2, 9*height/10);
 }
 void selector() {
   image(Screen, 0, 0);
-  fill(255);
-  textSize(20);
-  textAlign(CENTER, CENTER);
   switch(Selector) {
   case 0:
     fill(255, 0, 0);
