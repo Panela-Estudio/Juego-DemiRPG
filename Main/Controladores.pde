@@ -1,21 +1,24 @@
-int Pablo = 3, Selector = 1;
+int Pablo = 4, Selector = 1;
 boolean Enter = false, Back = false, Arriba = false, Abajo = false;
 void Menu() {
   textAlign(CENTER, CENTER);
   textSize(20);
   if(keyPressed && Pablo == 3){
-    Pablo = 4;
+    Pablo++;
   }
   if (Enter && Pablo != 3) {
     Pablo = Selector;
   } else if (Back) {
     Pablo = 4;
   } else if (Arriba && Selector > 0) {
-    Selector --;
     Arriba = false;
+    Selector --;
   } else if (Abajo && Selector < 2) {
     Selector ++;
     Abajo = false;
+  }else{
+    Abajo = false;
+    Arriba = false;
   }
   switch(Pablo) {
   case 0://Juego como tal
@@ -26,8 +29,7 @@ void Menu() {
   text("Presione + para salir",width/2,6*height/10);
     break;
   case 2://Pantalla con menus
-  image(Screen, 0, 0);
-  text("Presione + para salir",width/2,6*height/10);
+  exit();
     break;
   case 3://Pantalla con configuracione
   inicio();
@@ -50,12 +52,12 @@ void selector() {
     text("Empezar", width/2, 6*height/10);
     fill(255);
     text("Configuracion", width/2, height*7/10);
-    text("Pablo", width/2, height*8/10);
+    text("Salir", width/2, height*8/10);
     break;
   case 1:
     fill(255);
     text("Empezar", width/2, height*6/10);
-    text("Pablo", width/2, height*8/10);
+    text("Salir", width/2, height*8/10);
     fill(255, 0, 0);
     text("Configuracion", width/2, height*7/10);      
     break;
@@ -64,7 +66,7 @@ void selector() {
     text("Empezar", width/2, height*6/10);
     text("Configuracion", width/2, height*7/10);
     fill(255, 0, 0);
-    text("Pablo", width/2, height*8/10);
+    text("Salir", width/2, height*8/10);
     break;
   }
 }
