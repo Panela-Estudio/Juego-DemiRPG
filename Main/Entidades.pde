@@ -6,8 +6,8 @@ class Entidad {
   boolean Front = false, Back = false, Roof = false;
   boolean AtackL = false, AtackH = false;
   int Heal, Armord, Damage;
-  float tiempo = 0, tiempoA = 0, Tiempo = 0,T_Salto = 0;
-  int frame = 0, dir = 1;
+  float tiempo = 0, tiempoA = 0, Tiempo = 0, T_Salto = 0;
+  int frame = 0, dir = 1,x_D = 0,y_D = 2;
   Entidad(float tempx, float tempy, int tempH, int tempA, int tempD, boolean tempHo) {
     Coord.x = tempx;
     Coord.y = tempy;
@@ -19,11 +19,10 @@ class Entidad {
   void gen() {
     control();
     comandos();
-    animacion();
     imagen();
   }
   void Movimiento(int dir) {
-    Coord.x += Base.x * dir;
+    x += Base.x * dir;
   }
   void ataque() {
     tiempoA += 2;
@@ -48,30 +47,34 @@ class Entidad {
       comandos();
     }
   }
-  void animacion() {
-    Tiempo += 0.2;
+  void animacion(int d,int h) {
+    Tiempo += 0.4;
+    if (frame >= 4) {
+      frame = 0;
+    }
+    copy(MOV_Q[d], (int)32*frame, 32*h, 32, 32, (int)Coord.x-16, (int)Coord.y, 32, 32);
     if (Tiempo >= 10) {
       Tiempo = 0;
       frame += 1 * dir;
-    } 
-    if (frame >= 2 || frame <= 0) {
-      dir = -1*dir;
     }
-    copy(MOV_Q, (int)32*frame, 0, 32, 32, (int)Coord.x-16, (int)Coord.y, 32, 32);
   }
   void comandos() {
     if (MoR && !Front) {
-      Movimiento(1);
+      Movimiento(-1);
+      x_D = 0;
+      y_D = 1;
     }
     if (MoL && !Back) {
-      Movimiento(-1);
+      Movimiento(1);
+      x_D = 1;
+      y_D = 1;
     }
     if (AtackL) {
       ataque();
     }
     if (MoJ && !Roof) {
       salto(1);
-    } else if (!MoJ || Roof) {
+    } else if (!MoJ || Roof){
       salto(0);
     }
   }
@@ -85,13 +88,10 @@ class Entidad {
       ataque();
     }
   }
-  void imagen() {
-    fill(255, 0, 0);
-
-    if (AtackL) {
-      fill(0, 255, 0);
-      rect(Swif.x, Swif.y, 30, 10);
-    }
+  void imagen(){
+    if(MoR || MoL){animacion(x_D,y_D);}
+    else if(!Floor){animacion(x_D,2);} 
+    else {animacion(x_D,0);}
   }
 }
 /***************************************************

@@ -1,11 +1,12 @@
+int x = 10,y;
 class escenario {
-  int xi, yi, xf, yf;
+  int xi, yi, xf, yf,x_p,y_p;
   boolean suelo = false, techo = false, frente = false, detras = false;
   int tipo = 16, Alto, Ancho, tipox, tipoy;
   escenario(int tempx, int tempy, int tempa, int temph, int _tipo) {
-    xi=tempx;
+    x_p=tempx;
     xf=tempa;
-    yi=tempy;
+    y_p=tempy;
     yf=temph;
     switch(_tipo) {
     case 0://Primer cubo
@@ -58,11 +59,16 @@ class escenario {
       break;
     }
   }
-  void gen() {
+  void gen() {    
+    updater();
     detector();
     face();
   }
-  void detector() {
+  void updater(){
+    xi= x_p + x;
+    yi= y_p + y;
+  }
+  void detector(){    
     boolean sueloI = false, techoI = false, frenteI = false, detrasI = false;
     if ((jugador.Coord.x - 15 >= xi && jugador.Coord.x - 15 <= xi + xf) || (jugador.Coord.x + 15 >= xi && jugador.Coord.x + 15 <= xi + xf)) {
       if (jugador.Coord.y + 32 >= yi && jugador.Coord.y + 32 <= yi + yf/2) {
@@ -97,17 +103,28 @@ void creador() {
     Boolean Si_suelo = false, Si_techo = false, Si_frente = false, Si_detras = false;
     for (int i = escenografia.size() - 1; i >= 0; i--) {
       escenario pedazo = escenografia.get(i);
-      pedazo.gen();
-      Si_suelo = Si_suelo | pedazo.suelo;
-      Si_techo = Si_techo | pedazo.techo;
-      Si_frente = Si_frente | pedazo.frente;
-      Si_detras = Si_detras | pedazo.detras;
-      jugador.Floor = Si_suelo;
-      jugador.Roof = Si_techo;
-      jugador.Front = Si_frente;
-      jugador.Back = Si_detras;
+      if(pedazo.xi + 32 >= 0 && pedazo.xi <= width){
+        pedazo.gen();        
+      } else{
+        pedazo.updater();
+      }
+        Si_suelo = Si_suelo | pedazo.suelo;
+        Si_techo = Si_techo | pedazo.techo;
+        Si_frente = Si_frente | pedazo.frente;
+        Si_detras = Si_detras | pedazo.detras;
+        jugador.Floor = Si_suelo;
+        jugador.Roof = Si_techo;
+        jugador.Front = Si_frente;
+        jugador.Back = Si_detras;
     }
   if (mousePressed) {
     escenografia.add(new escenario((int)mouseX, (int)mouseY, 32, 32, 0));
+  }
+}
+class puerta {
+  int X_p,Y_p,x_i,y_i,w = 32,h = 64;
+  boolean activado = false,entrar = false;
+  puerta(int tempx,int tempy){
+    
   }
 }

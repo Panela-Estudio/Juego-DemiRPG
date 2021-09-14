@@ -75,6 +75,11 @@ void game() {
     creador();
     jugador.gen();
     captador();
+    noStroke();
+    fill(0);
+    rect(0,500,1000,500);
+    image(H_Heal,0,500);
+    image(H_Item,100,500);
   }
   if (creado) {
     Nivel();
